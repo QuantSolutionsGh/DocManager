@@ -56,11 +56,11 @@
 
 
 							<h:outputLabel value="Please select documents to upload" />
-							<p:fileUpload id="files" widgetVar="fileUploadWidget" 
+							<p:fileUpload id="files" widgetVar="fileUploadWidget"
 								mode="advanced" dragDropSupport="true" ajax="true"
 								multiple="true" update="messages"
 								fileUploadListener="#{mainController.uploadDoc}"
-								sizeLimit="5000000"
+								sizeLimit="10000000"
 								oncomplete="handleMultiFileUploadRequest(PF('fileUploadWidget'), validateFiles);"
 								allowTypes="/(\.|\/)(gif|jpe?g|png|pdf)$/" />
 
@@ -143,21 +143,15 @@
 				<p:panel style="text-align:center">
 					<h:panelGrid columns="1" style="width:100%">
 
-						
-							<img height="200" width="200" src="/images/#{imageFile}" /> 
-							
-							<br />
-							
-							
-							
-							<a
+						<div>
+							<img height="200" width="200" src="/images/#{imageFile}" /> <a
 								href="print.html"
 								onclick="window.open('/images/#{imageFile}', '#{imageFile}', 'width=2479,height=3504'); return false;">
 								#{imageFile}</a>
 								
 								
 
-						
+						</div>
 
 
 					</h:panelGrid>

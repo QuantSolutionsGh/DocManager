@@ -17,15 +17,21 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
 
 
-	<bean id="mainController" class="com.databank.gh.docmanager.controller.MainController">
+	<bean id="mainController" class="com.databank.gh.docmanager.controller.MainController"
+		scope="session">
 
-		<property name="appMethods" ref="appMethods" />
+		<property name="appMethods" ref="dummy" />
 	</bean>
 
 	<tx:annotation-driven />
 
 
+	<bean id="dummy" class="com.databank.gh.docmanager.utils.dummy">
+		<property name="storagePath" value="/home/bernard" />
+		
+		<property name="dataSource" ref="dataSource" />
 
+	</bean>
 
 
 	<bean id="appMethods" class="com.databank.gh.docmanager.utils.DocManagerMethods">

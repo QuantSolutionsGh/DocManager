@@ -56,18 +56,18 @@
 
 
 							<h:outputLabel value="Please select documents to upload" />
-							<p:fileUpload id="files" widgetVar="fileUploadWidget" 
+							<p:fileUpload id="files" widgetVar="fileUploadWidget"
 								mode="advanced" dragDropSupport="true" ajax="true"
 								multiple="true" update="messages"
 								fileUploadListener="#{mainController.uploadDoc}"
-								sizeLimit="5000000"
+								sizeLimit="10000000"
 								oncomplete="handleMultiFileUploadRequest(PF('fileUploadWidget'), validateFiles);"
 								allowTypes="/(\.|\/)(gif|jpe?g|png|pdf)$/" />
 
 							<p:remoteCommand name="validateFiles" update="@form"
 								actionListener="#{mainController.uploadComplete()}" />
 
-
+							
 
 							<script type="text/javascript">
 								function handleMultiFileUploadRequest(
@@ -132,57 +132,27 @@
 
 			</div>
 
-			<p:dataGrid var="imageFile" value="#{mainController.imageList}"
-				paginatorAlwaysVisible="false" paginatorPosition="top" columns="3"
-				layout="grid" rows="12" paginator="true" id="imageTable">
+			<div class="table-responsive">
+				<h:dataTable styleClass="table table-striped"
+					rendered="#{not empty mainController.imageList}"
+					value="#{mainController.imageList}" var="o">
 
-				<f:facet name="header">
-
-				</f:facet>
-
-				<p:panel style="text-align:center">
-					<h:panelGrid columns="1" style="width:100%">
-
-						
-							<img height="200" width="200" src="/images/#{imageFile}" /> 
-							
-							<br />
-							
-							
-							
-							<a
-								href="print.html"
-								onclick="window.open('/images/#{imageFile}', '#{imageFile}', 'width=2479,height=3504'); return false;">
-								#{imageFile}</a>
-								
-								
-
-						
+					<h:column>
+						<!-- column header -->
+						<f:facet name="header">File Name</f:facet>
+						<!-- row record -->
+						<p:commandLink value="#{o}" update="@form" ajax="true"
+							actionListener="#{mainController.displayPopUp}" />
+					</h:column>
 
 
-					</h:panelGrid>
-				</p:panel>
+				</h:dataTable>
 
-			</p:dataGrid>
+			</div>
 
-			<p:dialog responsive="true" resizable="true"
-				style="max-width:100%;max-height:100%" id="myDialogID"
-				widgetVar="myDialogVar">
+			<p:dialog id="myDialogID" widgetVar="myDialogVar">
 
-				<p:scrollPanel>
-
-					<img style="max-width: 100%; max-height: 100%"
-						src="#{mainController.imageToDisplay}" />
-
-
-				</p:scrollPanel>
-
-
-
-
-
-
-
+				<p:commandButton value="the" />
 
 			</p:dialog>
 		</h:form>

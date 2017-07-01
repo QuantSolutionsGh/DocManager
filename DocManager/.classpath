@@ -33,6 +33,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/bernard/Downloads/weld-servlet-shaded-3.0.0.Final.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

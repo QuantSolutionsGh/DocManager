@@ -7,6 +7,8 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
@@ -17,7 +19,7 @@ import com.databank.gh.docmanager.utils.IDocManagerMethods;
 public class MainController implements Serializable {
 	
 	
-	private static final long serialVersionUID = -933602118417202939L;
+//	private static final long serialVersionUID = -933602118417202939L;
 	
 	private IDocManagerMethods appMethods;
 	
@@ -25,9 +27,13 @@ public class MainController implements Serializable {
 	
 	private UploadedFile uploadedFile2;
 	
+	private int docRef=0;
+	
 	private UploadedFile uploadedFile3;
 	
 	private List<String> imageList;
+	
+	private String imageToDisplay;
 	
 	private List<UploadedFile> uploadedList = new ArrayList<UploadedFile>();
 	
@@ -46,9 +52,48 @@ public class MainController implements Serializable {
 	
 	
 	public StreamedContent dispImage(String fileName) throws Exception{
-		return appMethods.getImage(fileName);
+		return null;
 	}
 	
+	
+	public void displayPopUp(String displayImage){
+		this.setImageToDisplay("/images/"+displayImage);
+		RequestContext.getCurrentInstance().execute("PF('myDialogVar').show();");
+		System.out.println("1");
+	}
+	
+	
+	
+	public void uploadDoc(FileUploadEvent e) throws Exception{
+	//	int docRef=0;  //int docRef=appMethods.getDocRef; i.e 
+		
+		if (docRef==0){
+			docRef=appMethods.getDocRef();  //initialize docRef
+		}
+		
+		appMethods.pushFile(e.getFile(), docRef);
+		
+		//System.out.println(e.getFile().getFileName());
+	}
+	
+	
+	
+	public void uploadComplete() throws Exception{
+
+		System.out.println("Complete");
+	
+		//now lets push into database
+		//this.uploadedList.add(uploadedFile3);
+		//String docRef=appMethods.uploadFiles(uploadedList);
+		
+		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Documents successfully uploaded."
+		 		+ "Your document ref number is "+String.valueOf(docRef)));
+		 this.uploadedList=new ArrayList<UploadedFile>();
+		 
+		 this.docRef=0; //reset doc ref
+		 
+		 
+	}
 	
 	public void save(){
 		
@@ -138,6 +183,18 @@ public class MainController implements Serializable {
 	public void setImageList(List<String> imageList) {
 		this.imageList = imageList;
 	}
+
+
+	public String getImageToDisplay() {
+		return imageToDisplay;
+	}
+
+
+	public void setImageToDisplay(String imageToDisplay) {
+		this.imageToDisplay = imageToDisplay;
+	}
+	
+	
 	
 	
 	

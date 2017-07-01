@@ -15,7 +15,13 @@ public interface IDocManagerMethods {
 	//public File getFile(String uniqueDocNumber);  //uniqueDocNumber is generated after successful file upload
 	public List<String> getImages(String docRef);
 	
-	public StreamedContent getImage(String filename) throws Exception;
+	//public StreamedContent getImage(String filename) throws Exception;
+	
+	public void pushFile(UploadedFile item,int docRef) throws Exception;
+	
+	public int getDocRef();
+	
+	public void storeInDb(int docRef, String fileName);
 	
 
 }

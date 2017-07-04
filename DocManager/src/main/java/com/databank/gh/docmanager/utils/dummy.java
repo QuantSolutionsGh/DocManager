@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +29,9 @@ import org.primefaces.model.UploadedFile;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
-public class dummy extends JdbcDaoSupport implements IDocManagerMethods {
+public class dummy extends JdbcDaoSupport implements IDocManagerMethods,Serializable {
+	
+	private static final long serialVersionUID = -933602118117202939L;
 	
 	public String storagePath;
 
@@ -38,7 +41,7 @@ public class dummy extends JdbcDaoSupport implements IDocManagerMethods {
 
 	@Override
 	public String uploadFiles(List<UploadedFile> uploadedFiles) throws Exception {
-		int docRef = 0;
+		int docRef = this.getDocRef();
 		for (UploadedFile item : uploadedFiles) {
 			// check if file is a pdf if it is output to remote disk,create
 			// individual images and upload
@@ -138,7 +141,7 @@ public class dummy extends JdbcDaoSupport implements IDocManagerMethods {
 
 	@Override
 	public List<String> getImages(String docRef) {
-		String sql = "select file_name from tbl_main where doc_ref=?";
+		String sql = "select file_name from tbl_main2 where doc_ref=?";
 		List<String> fileList = new ArrayList<String>();
 		List<Map<String, Object>> rows = this.getJdbcTemplate().queryForList(sql, docRef);
 
@@ -164,15 +167,16 @@ public class dummy extends JdbcDaoSupport implements IDocManagerMethods {
 	@Override
 	@Transactional
 	public int getDocRef() {
-		String sql = "select max(doc_ref)+1 from sequencer";
+		String sql = "select max(doc_ref)+1 from sequencer2";
 		int docRef = this.getJdbcTemplate().queryForObject(sql, Integer.class);
-		this.getJdbcTemplate().update("update sequencer set doc_ref=?", docRef);
+		this.getJdbcTemplate().update("update sequencer2 set doc_ref=?", docRef);
 		return docRef;
 	}
 
 	@Override
+	@Transactional
 	public void storeInDb(int docRef, String fileName) {
-		String sql = "insert into tbl_main(doc_ref,file_name) values (?,?)";
+		String sql = "insert into tbl_main2(doc_ref,file_name) values (?,?)";
 		this.getJdbcTemplate().update(sql, new Object[] { docRef, fileName });
 		
 	}

@@ -19,7 +19,7 @@ import com.databank.gh.docmanager.utils.IDocManagerMethods;
 public class MainController implements Serializable {
 	
 	
-//	private static final long serialVersionUID = -933602118417202939L;
+	private static final long serialVersionUID = -933602118417202939L;
 	
 	private IDocManagerMethods appMethods;
 	
@@ -30,6 +30,8 @@ public class MainController implements Serializable {
 	private int docRef=0;
 	
 	private UploadedFile uploadedFile3;
+	
+	private UploadedFile uploadedFile4;
 	
 	private List<String> imageList;
 	
@@ -108,13 +110,21 @@ public class MainController implements Serializable {
 			if (!uploadedFile3.getFileName().isEmpty()) {
 				this.uploadedList.add(uploadedFile3);
 			}
+			if (!uploadedFile4.getFileName().isEmpty()) {
+				this.uploadedList.add(uploadedFile4);
+			}
 			
-			
+			if (this.uploadedList.size()==0){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "No document has been attached."
+				 		));
+				
+			}
+			else {
 			//this.uploadedList.add(uploadedFile3);
 			String docRef=appMethods.uploadFiles(uploadedList);
 			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Documents successfully uploaded."
 			 		+ "Your document ref number is "+docRef));
-			 this.uploadedList=new ArrayList<UploadedFile>();
+			 this.uploadedList=new ArrayList<UploadedFile>();}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -193,6 +203,17 @@ public class MainController implements Serializable {
 	public void setImageToDisplay(String imageToDisplay) {
 		this.imageToDisplay = imageToDisplay;
 	}
+
+
+	public UploadedFile getUploadedFile4() {
+		return uploadedFile4;
+	}
+
+
+	public void setUploadedFile4(UploadedFile uploadedFile4) {
+		this.uploadedFile4 = uploadedFile4;
+	}
+	
 	
 	
 	

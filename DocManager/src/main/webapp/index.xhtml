@@ -23,6 +23,8 @@
 	<h:outputStylesheet library="webjars"
 		name="font-awesome/4.5.0/css/font-awesome.min-jsf.css" />
 	<h:outputStylesheet name="css/style.css" />
+	
+	<link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/resources/images/favicon.ico"/>
 
 </h:head>
 
@@ -56,35 +58,31 @@
 
 
 							<h:outputLabel value="Please select documents to upload" />
-							<p:fileUpload id="files" widgetVar="fileUploadWidget" 
-								mode="advanced" dragDropSupport="true" ajax="true"
-								multiple="true" update="messages"
-								fileUploadListener="#{mainController.uploadDoc}"
-								sizeLimit="5000000"
-								oncomplete="handleMultiFileUploadRequest(PF('fileUploadWidget'), validateFiles);"
+							<p:fileUpload mode="simple" update="messages"
+								value="#{mainController.uploadedFile1}" sizeLimit="5000000" 
+								allowTypes="/(\.|\/)(gif|jpe?g|png|pdf)$/" />
+							<p:fileUpload mode="simple" update="messages"
+								value="#{mainController.uploadedFile2}" sizeLimit="5000000"
 								allowTypes="/(\.|\/)(gif|jpe?g|png|pdf)$/" />
 
-							<p:remoteCommand name="validateFiles" update="@form"
-								actionListener="#{mainController.uploadComplete()}" />
+							<p:fileUpload mode="simple" update="messages"
+								value="#{mainController.uploadedFile3}" sizeLimit="5000000"
+								allowTypes="/(\.|\/)(gif|jpe?g|png|pdf)$/" />
+
+							<p:fileUpload mode="simple" update="messages"
+								value="#{mainController.uploadedFile4}" sizeLimit="5000000"
+								allowTypes="/(\.|\/)(gif|jpe?g|png|pdf)$/" />
 
 
 
-							<script type="text/javascript">
-								function handleMultiFileUploadRequest(
-										fileupload, remoteButton) {
-									if (fileupload.files.length === 0) {
 
-										remoteButton();
 
-									}
-								}
-							</script>
 
 						</div>
 						<div class="form-group">
 							<br />
 
-							<h:commandButton ajax="false" update="@form" rendered="false"
+							<h:commandButton ajax="false" update="@form" rendered="true"
 								actionListener="#{mainController.save}"
 								styleClass="btn btn-warning" value="Upload"></h:commandButton>
 						</div>
@@ -143,21 +141,20 @@
 				<p:panel style="text-align:center">
 					<h:panelGrid columns="1" style="width:100%">
 
-						
-							<img height="200" width="200" src="/images/#{imageFile}" /> 
-							
-							<br />
-							
-							
-							
-							<a
-								href="print.html"
-								onclick="window.open('/images/#{imageFile}', '#{imageFile}', 'width=2479,height=3504'); return false;">
-								#{imageFile}</a>
-								
-								
 
-						
+						<img height="200" width="200" src="/images/#{imageFile}" />
+
+						<br />
+
+
+
+						<a href="print.html"
+							onclick="window.open('/images/#{imageFile}', '#{imageFile}', 'width=2479,height=3504'); return false;">
+							#{imageFile}</a>
+
+
+
+
 
 
 					</h:panelGrid>
